@@ -13,4 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('home', \App\Http\Controllers\HomeController::class);
+Route::get('/user/{id}', '\App\Http\Controllers\HomeController@getUser');
+Route::resource('/', \App\Http\Controllers\HomeController::class);

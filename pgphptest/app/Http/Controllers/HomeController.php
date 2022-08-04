@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\UserRepo;
 
 class HomeController extends Controller
 {
@@ -11,11 +12,22 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
         return view('index');
     }
 
+    public function getUser($id) {
+
+        $user = UserRepo::getUserById($id);
+
+        if (!$user) {
+            abort(403, 'No such user ('.$id.')');
+        }
+
+        return view('user', compact('user'));
+    }
     /**
      * Show the form for creating a new resource.
      *
