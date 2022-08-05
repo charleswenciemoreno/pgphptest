@@ -66,10 +66,10 @@ class HomeController extends Controller
         $user = User::find($validated['id']);
 
         if (!empty($user)) {
-            //concatenate new comment in comments data
-            $user->comments = $user->comments . "\n" .$validated['comment'];
 
-            if ($user->save()) {
+            $insert_comment = UserRepo::updateUserComments($user->id, $validated['comment']);
+
+            if ($insert_comment) {
 
                 return back()->with('success', 'Comment successfully added.');
             }
@@ -94,13 +94,14 @@ class HomeController extends Controller
 
             if (!empty($request->comment)) {
 
-                 $user->comments = $user->comments . "\n" .$request->comment;
+                $insert_comment = UserRepo::updateUserComments($user->id, $request->comment);
 
                 //save changes 
-                if ($user->save()) {
+                if ($insert_comment) {
 
                     return response()->json(['success' => 1, 'errors' => $errors]);
                 }
+                
             } else {
                 $errors[] = "Comment is a required field.";
             }
