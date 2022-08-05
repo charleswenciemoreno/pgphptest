@@ -6,7 +6,6 @@ use App\Models\Users\User;
 
 class UserRepo
 {
-	
     public static function getUserById($id) {
 
         if (!empty($id)) {
@@ -17,7 +16,16 @@ class UserRepo
         }
 
         return false;
-
     }
+
+    public static function validatePassword($password) {
+
+    	if (!empty($password) && ($password == config('constant.static_password'))) {
+
+    		return true;
+    	}
+
+    	return false;
+    }	
 
 }

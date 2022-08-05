@@ -13,11 +13,32 @@
     @yield('styles')
   </head>
   <body class="is-preload">
+
+  @if ($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+  @endif
+
+  @if (session('error_msg'))
+      <div class="alert alert-danger">
+            <li>{{ session('error_msg') }}</li>
+      </div>
+  @endif
+
+  @if (session('success'))
+      <div class="alert alert-success">
+            <li>{{ session('success') }}</li>
+      </div>
+  @endif
+
     <div class="container">
       <div id="wrapper">
-        <section id="main">
           @yield('content')
-        </section>
       </div>
     </div>
 
@@ -27,8 +48,11 @@
         </ul>
     </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"/>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+  
 
   @yield('scripts')
   <script>
