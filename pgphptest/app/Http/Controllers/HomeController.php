@@ -66,8 +66,8 @@ class HomeController extends Controller
         $user = User::find($validated['id']);
 
         if (!empty($user)) {
-
-            $insert_comment = UserRepo::updateUserComments($user->id, $validated['comment']);
+            //2nd argument expected array parameter
+            $insert_comment = UserRepo::updateUserComments($user->id, [$validated['comment']]);
 
             if ($insert_comment) {
 
@@ -93,8 +93,8 @@ class HomeController extends Controller
         if (!empty($user)) {
 
             if (!empty($request->comment)) {
-
-                $insert_comment = UserRepo::updateUserComments($user->id, $request->comment);
+                //2nd argument expected array parameter
+                $insert_comment = UserRepo::updateUserComments($user->id, [$request->comment]);
 
                 //save changes 
                 if ($insert_comment) {

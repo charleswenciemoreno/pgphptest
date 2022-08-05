@@ -28,15 +28,21 @@ class UserRepo
     	return false;
     }	
 
-    public static function updateUserComments($id, $comment) {
-
+    public static function updateUserComments($id, array $comments) {
+    	
     	if (!empty($id)) {
+
+    		$comment_str = '';
 
     		$user = User::find($id);
 
-    		//concatenate new comment in comments data
-            $user->comments = $user->comments . "\n" .$comment;
+    		foreach ($comments as $comment) {
+    			//concatenate new comment in comments data
+           		$comment_str .=  "\n" .$comment;
+    		}
 
+    		$user->comments = $user->comments . $comment_str;
+    		
             if ($user->save()) {
 
             	return true;
