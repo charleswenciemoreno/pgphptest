@@ -47,7 +47,7 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {      
         //adds password to request array for validation
         Arr::add($request, 'password', '720DF6C2482218518FA20FDC52D4DED7ECC043AB');
 
@@ -56,7 +56,6 @@ class HomeController extends Controller
             'comment' => 'required',
             'password' => 'required'
         ]);
-
 
         if (!UserRepo::validatePassword($validated['password'])) {
             
@@ -79,6 +78,39 @@ class HomeController extends Controller
 
             abort(404);
         }
+    }
+
+    public function ajaxStore(Request $request) {
+
+        $errors = [];
+
+        if (!UserRepo::validatePassword(strtoupper($request->password))) {
+            $errors[] = 'Invalid Password';
+        } 
+
+        $user = User::find($request->id);
+
+        if (!empty($user)) {
+
+            if (!empty($request->comment)) {
+
+                 $user->comments = $user->comments . "\n" .$request->comment;
+
+                //save changes 
+                if ($user->save()) {
+
+                    return response()->json(['success' => 1, 'errors' => $errors]);
+                }
+            } else {
+                $errors[] = "Comment is a required field.";
+            }
+                
+        } else {
+
+            $errors[] = "Unauthorized user";
+        }
+
+        return response()->json(['success' => 0, 'errors' => $errors]);
     }
 
     /**
